@@ -44,6 +44,15 @@ func Initialize(serviceName string) {
 		fmt.Println("Generated Kubernetes Manifest")
 		return nil
 	})
+	// ---
+	eg.Go(func() error {
+		err := initializeDirectory()
+		if err != nil {
+			return err
+		}
+		fmt.Println("Generated Directory Template")
+		return nil
+	})
 	if err := eg.Wait(); err != nil {
 		log.Fatalln(err)
 	}
@@ -117,6 +126,59 @@ func generateDockerCompose() error {
 	defer file.Close()
 	_, err = fmt.Fprintln(file, DockerCompose)
 	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func initializeDirectory() error {
+	eg := errgroup.Group{}
+	eg.Go(func() error {
+		err := os.Mkdir("application", 0777)
+		if err != nil {
+			return err
+		}
+		err = os.Mkdir("./application/controllers", 0777)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	eg.Go(func() error {
+		err := os.Mkdir("domain", 0777)
+		if err != nil {
+			return err
+		}
+		err = os.Mkdir("./domain/services", 0777)
+		if err != nil {
+			return err
+		}
+		err = os.Mkdir("./domain/models", 0777)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	eg.Go(func() error {
+		err := os.Mkdir("infrastructure", 0777)
+		if err != nil {
+			return err
+		}
+		err = os.Mkdir("./infrastructure/persistence", 0777)
+		if err != nil {
+			return err
+		}
+		err = os.Mkdir("./infrastructure/persistence/repositories", 0777)
+		if err != nil {
+			return err
+		}
+		err = os.Mkdir("./infrastructure/persistence/dbmodels", 0777)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err := eg.Wait(); err != nil {
 		return err
 	}
 	return nil

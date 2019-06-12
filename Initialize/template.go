@@ -16,7 +16,7 @@ COPY . .
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
-RUN go build -o app main.go
+RUN go build -o app gogoenv.go
 # Runtime Phase
 FROM alpine
 RUN apk add --no-cache ca-certificates
@@ -33,7 +33,7 @@ RUN go get github.com/pilu/fresh
 RUN go get -u github.com/go-delve/delve/cmd/dlv
 COPY . .
 EXPOSE 3000
-CMD fresh -c runner.conf main.go`
+CMD fresh -c runner.conf gogoenv.go`
 
 	DockerCompose = `version: '3'
 services:

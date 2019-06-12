@@ -2,7 +2,8 @@ package main
 
 import (
 	"errors"
-	"github.com/tozastation/GoGoEnv/Initialize"
+	"github.com/tozastation/gogoenv/Initialize"
+	"github.com/tozastation/gogoenv/generics"
 	"log"
 	"os"
 
@@ -13,12 +14,13 @@ const (
 	// N0_ARGUMENTS_COMMAND is has not arguments your command
 	N0ArgumentsCommand = ""
 	InitializeCommand = "init"
+	CreateServiceCommand = "create"
 )
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "GoGoEnv"
-	app.Usage = "GoGoEnv is Create Boiler Template"
+	app.Name = "gogoenv"
+	app.Usage = "gogoenv is Create Boiler Template"
 	app.Version = "0.0.1"
 	app.Action = func(c *cli.Context) error {
 		command := c.Args().Get(0)
@@ -32,6 +34,9 @@ func main() {
 			}
 			Initialize.Initialize(subCommand)
 			return nil
+		case CreateServiceCommand:
+			domainName := c.Args().Get(1)
+			return generics.GenerateGenerics(domainName)
 		}
 		return nil
 	}
