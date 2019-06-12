@@ -10,8 +10,9 @@ import (
 )
 
 const (
-	N0_ARGUMENTS_COMMAND = ""
-	INITIALIZE_COMMAND = "init"
+	// N0_ARGUMENTS_COMMAND is has not arguments your command
+	N0ArgumentsCommand = ""
+	InitializeCommand = "init"
 )
 
 func main() {
@@ -22,10 +23,15 @@ func main() {
 	app.Action = func(c *cli.Context) error {
 		command := c.Args().Get(0)
 		switch command {
-		case N0_ARGUMENTS_COMMAND:
-			return errors.New("Enough Arguments")
-		case INITIALIZE_COMMAND:
-			Initialize.Initialize(c.Args().Get(1))
+		case N0ArgumentsCommand:
+			return errors.New("[Enough Arguments]: please type one argument at least")
+		case InitializeCommand:
+			subCommand := c.Args().Get(1)
+			if subCommand == "" {
+				return errors.New("[Enough Arguments]: init + {Your Application Name}")
+			}
+			Initialize.Initialize(subCommand)
+			return nil
 		}
 		return nil
 	}
