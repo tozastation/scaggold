@@ -3,21 +3,23 @@ package generics
 import (
 	"fmt"
 	"github.com/cheekybits/genny/parse"
-	"github.com/rakyll/statik/fs"
 	"golang.org/x/sync/errgroup"
 	"io"
 	"os"
 	"strings"
 )
+
 func GenerateGenerics(domainName string) error {
 	eg := errgroup.Group{}
+	// Replace Struct Name
 	structName :=  strings.Title(domainName)
 	var typeSets []map[string]string
 	value := make(map[string]string)
 	value["KeyType"] = structName
 	typeSets = append(typeSets, value)
+	// ---
 	eg.Go(func() error {
-		serviceReader, err := read("/service_generics.go")
+		serviceReader, err := read(os.Getenv("GOPATH") + "/src/github.com/tozastation/gogoenv/boiler/services/service_generics.go")
 		if err != nil {
 			return err
 		}
@@ -32,9 +34,9 @@ func GenerateGenerics(domainName string) error {
 		fmt.Println("Generated Service Template")
 		return nil
 	})
-	//
+	// ---
 	eg.Go(func() error {
-		serviceReader, err := read("/repository_generics.go")
+		serviceReader, err := read(os.Getenv("GOPATH") + "/src/github.com/tozastation/gogoenv/boiler/repositories/repository_generics.go")
 		if err != nil {
 			return err
 		}
@@ -49,6 +51,9 @@ func GenerateGenerics(domainName string) error {
 		fmt.Println("Generated Repository Template")
 		return nil
 	})
+	if err := eg.Wait(); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -60,21 +65,20 @@ func gen(filename, pkgName string, in io.ReadSeeker, typesets []map[string]strin
 	if err != nil {
 		return err
 	}
-	out.Write(output)
+	_, err = out.Write(output)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 func read(filePath string) (io.ReadSeeker, error) {
-	fileSystem, err := fs.New()
+	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, err
 	}
-	f, err := fileSystem.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-	fmt.Println(f)
-	return f, nil
+	fmt.Printf("%s is opened", file.Name())
+	return file, nil
 }
 
 func write(filePath string) (io.Writer, error) {

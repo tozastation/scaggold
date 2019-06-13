@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"github.com/tozastation/gogoenv/Initialize"
 	"github.com/tozastation/gogoenv/generics"
 	"log"
@@ -15,6 +16,7 @@ const (
 	N0ArgumentsCommand = ""
 	InitializeCommand = "init"
 	CreateServiceCommand = "create"
+	CheckGoPath = "gopath"
 )
 
 func main() {
@@ -37,6 +39,8 @@ func main() {
 		case CreateServiceCommand:
 			domainName := c.Args().Get(1)
 			return generics.GenerateGenerics(domainName)
+		case CheckGoPath:
+			fmt.Printf("Your GOPATH is %s", os.Getenv("GOPATH"))
 		}
 		return nil
 	}
