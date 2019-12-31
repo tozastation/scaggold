@@ -33,6 +33,7 @@ func DockerfileProd(projectName, serviceName string) (string, error) {
 	}
 	replaced := strings.Replace(string(contents), "your-project-name", projectName, -1)
 	replaced = strings.Replace(replaced, "your-service-name", serviceName, -1)
+	replaced = replaced + "\n"
 	return replaced, nil
 }
 
@@ -48,5 +49,6 @@ func DockerfileDev(projectName, serviceName string) (string, error) {
 	}
 	replaced := strings.Replace(string(contents), "your-project-name", projectName, -1)
 	replaced = strings.Replace(replaced, "your-service-name", serviceName, -1)
+	replaced = replaced + "\n"
 	return replaced, nil
 }
