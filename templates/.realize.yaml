@@ -1,0 +1,20 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+  - name: service-name
+    path: .
+    commands:
+      install:
+        status: true
+        dir: entrypoint-path
+      run:
+        status: true
+        method: installed-path
+    watcher:
+      extensions:
+        - go
+      paths:
+        - /
+      ignored_paths:
