@@ -1,13 +1,21 @@
 # sgoffold
 Goで開発するときのサポートツールです．
-
 ## Command list
 - [ ] : `sgoffold init {package name}`
-    - create your initial application code
+    - プロジェクトの初期化をします． (golang-standards/project-layout)
 - [ ] : `sgoffold addService {service name}`
-    - create application code
+    - アプリケーションの初期化をします．
 ### Description
+
 #### sgoffold init
 
-
-## Install
+#### sgoffold addService
+- architecture
+    - generate clean architecture package construction
+- Dockerfile : [Dockerfile.dev,Dockerfile.prod]
+- docker-compose: [docker-compose.dev.yaml]
+    - with MySQL or MongoDB option
+- kubernetes: [deployment.yaml,service.yaml,namespace.yaml]
+## Getting Start
+### Install
+`go install github.com/tozastation/sgoffold`
