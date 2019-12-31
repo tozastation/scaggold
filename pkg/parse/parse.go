@@ -21,17 +21,31 @@ func init() {
 	}
 }
 
-func DockerfileDev(projectName, serviceName string) (string, error) {
-	r, err := StatikFS.Open("/Dockerfile.dev")
+func DockerfileProd(projectName, serviceName string) (string, error) {
+	r, err := StatikFS.Open("/Dockerfile.prod")
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	defer r.Close()
 	contents, err := ioutil.ReadAll(r)
 	if err != nil {
 		return "", nil
 	}
-	// 全部のJavaを置き換え
+	replaced := strings.Replace(string(contents), "your-project-name", projectName, -1)
+	replaced = strings.Replace(replaced, "your-service-name", serviceName, -1)
+	return replaced, nil
+}
+
+func DockerfileDev(projectName, serviceName string) (string, error) {
+	r, err := StatikFS.Open("/Dockerfile.dev")
+	if err != nil {
+		return "", err
+	}
+	defer r.Close()
+	contents, err := ioutil.ReadAll(r)
+	if err != nil {
+		return "", nil
+	}
 	replaced := strings.Replace(string(contents), "your-project-name", projectName, -1)
 	replaced = strings.Replace(replaced, "your-service-name", serviceName, -1)
 	return replaced, nil

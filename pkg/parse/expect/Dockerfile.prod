@@ -3,14 +3,14 @@
 ############################
 FROM golang:1.13.4-alpine AS builder
 RUN apk update && apk add --no-cache git
-WORKDIR /your-project-name
+WORKDIR /test
 COPY . .
-RUN go build -o /go/bin/your-service-name ./cmd/your-service-name
+RUN go build -o /go/bin/test ./cmd/test
 ############################
 # STEP 2 execute a small image
 ############################
 FROM scratch
-COPY --from=builder /go/bin/your-service-name /your-service-name
+COPY --from=builder /go/bin/test /test
 #TODO: fix as you like
 EXPOSE 3000
-ENTRYPOINT ["/your-service-name"]
+ENTRYPOINT ["/test"]
