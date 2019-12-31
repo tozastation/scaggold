@@ -15,7 +15,10 @@ limitations under the License.
 */
 package main
 
-import "github.com/tozastation/sgoffold/cmd"
+import (
+  "github.com/tozastation/sgoffold/cmd"
+  _ "github.com/tozastation/sgoffold/statik"
+)
 
 func main() {
   cmd.Execute()

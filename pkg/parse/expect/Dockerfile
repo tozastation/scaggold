@@ -1,0 +1,9 @@
+FROM golang:1.13.4-alpine
+# TODO: fix as you like
+WORKDIR /test
+COPY . .
+RUN apk add --no-cache git && go get gopkg.in/urfave/cli.v2@master && go get github.com/oxequa/realize
+# TODO: fix as you like
+EXPOSE 3000
+# TODO: fix as you like
+CMD ["realize", "start"," --name='test'"," --run"]

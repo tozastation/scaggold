@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/cheekybits/genny v1.0.0
 	github.com/mitchellh/go-homedir v1.1.0
+	github.com/rakyll/statik v0.1.6
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/viper v1.3.2
 	github.com/tozastation/gogoenv v0.0.0-20190613065103-3c764e55bb8f
